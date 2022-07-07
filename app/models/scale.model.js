@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
-    const response = sequelize.define("responses", {   
-      response: {
+    const scale = sequelize.define("scale", {
+      min: {
         type: Sequelize.STRING
       },
-      type: {
+      max: {
         type: Sequelize.STRING
-      } 
+      }
     });
-    return response;
+    return scale;
   };

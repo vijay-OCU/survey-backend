@@ -19,6 +19,8 @@ db.surveys = require("./surveys.model.js")(sequelize, Sequelize);
 db.questions = require("./questions.model.js")(sequelize, Sequelize);
 db.responses = require("./responses.model.js")(sequelize, Sequelize);
 db.participants = require("./participants.model.js")(sequelize, Sequelize);
+db.options = require("./options.model.js")(sequelize, Sequelize);
+db.scale = require("./scale.model.js")(sequelize, Sequelize);
 
 db.users.hasMany(db.surveys, {
   as: 'surveys',
@@ -50,6 +52,21 @@ db.participants.hasMany(db.responses, {
 });
 db.responses.belongsTo(db.questions, {
   foreignKey: 'participantId', as: 'participants',
+});
+
+db.surveys.hasMany(db.participants, {
+  as: 'participants',
+});
+db.participants.belongsTo(db.surveys, {
+  foreignKey: 'surveyId', as: 'surveys',
+});
+
+db.options.belongsTo(db.questions, {
+  foreignKey: 'questionId', as: 'questions',
+});
+
+db.scale.belongsTo(db.questions, {
+  foreignKey: 'questionId', as: 'questions',
 });
 
 module.exports = db;

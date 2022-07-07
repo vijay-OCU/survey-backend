@@ -6,7 +6,6 @@ module.exports = (sequelize, Sequelize) => {
       emailId: {
         type: Sequelize.STRING
       }
-      
     });
     return participant;
   };
