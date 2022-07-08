@@ -8,10 +8,12 @@ exports.signup = (req, res) => {
   // Save User to Database
   User.create({
     username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: bcrypt.hashSync(req.body.password, 8),
+    role : req.body.role
   })
     .then(user => {
-      if (req.body.roles) {
+      res.send({ message: "User was registered successfully!" });
+      /*if (req.body.roles) {
         Role.findAll({
           where: {
             name: {
@@ -28,7 +30,7 @@ exports.signup = (req, res) => {
         user.setRoles([1]).then(() => {
           res.send({ message: "User was registered successfully!" });
         });
-      }
+      }*/
     })
     .catch(err => {
       res.status(500).send({ message: err.message });
