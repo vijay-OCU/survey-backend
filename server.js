@@ -24,9 +24,8 @@ db.sequelize.sync({ force: true }).then(() => {
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to surveys application." });
 });
-require("./app/routes/album.routes")(app);
-require("./app/routes/track.routes")(app);
-require("./app/routes/artist.routes")(app);
+require('./app/routes/auth.routes')(app);
+//require('./app/routes/user.routes')(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
