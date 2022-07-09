@@ -9,9 +9,10 @@ module.exports = function(app) {
     next();
   });
   
+  //Get  surveys by Id
   app.get(
-    "/api/users/all",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.userBoard
+    "/api/users/:userId/surveys",
+    [authJwt.verifyToken],
+    controller.findById
   );
 };
