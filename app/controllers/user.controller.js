@@ -2,19 +2,6 @@ const db = require('../models');
 const Surveys = db.surveys;
 const Op = db.Sequelize.Op;
 
-exports.allAccess = (req, res) => {
-    res.status(200).send("Public Content.");
-  };
-exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
-};
-exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
-};
-exports.moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator Content.");
-};
-
 //Find surveys by user Id
 exports.findById = (req, res) => {
   const userId = req.params.userId;
@@ -26,5 +13,20 @@ exports.findById = (req, res) => {
       res.status(500).send({
         message: err.message || 'Some error occurred while retrieving surveys.',
       });
+    });
+};
+
+//Create survey
+exports.createsurvey = (req, res) => {
+  // Save survey  to Database
+  Surveys.create({
+    name: req.body.name,
+    userId : req.userId
+  })
+    .then(user => {
+      res.send({ message: "Survey was added successfully!" });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
     });
 };

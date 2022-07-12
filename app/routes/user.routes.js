@@ -15,4 +15,11 @@ module.exports = function(app) {
     [authJwt.verifyToken],
     controller.findById
   );
+
+  //Create survey
+  app.post(
+    "/api/users/createsurvey",
+    [ authJwt.verifyToken ],
+    controller.createsurvey
+  );
 };
