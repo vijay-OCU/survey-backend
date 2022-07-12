@@ -1,14 +1,14 @@
 module.exports = (sequelize, Sequelize) => {
-  const album = sequelize.define("albums", {
-    title: {
+  const user = sequelize.define("users", {
+    username: {
       type: Sequelize.STRING
     },
-    language: {
+    password: {
       type: Sequelize.STRING
     },
-    genre: {
+    role: {
       type: Sequelize.STRING
     }
   });
-  return album;
+  return user;
 };

@@ -1,13 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
-  const track = sequelize.define("tracks", {
-    
-    title: {
+  const question = sequelize.define("questions", {
+    question: {
       type: Sequelize.STRING
     },
-    length: {
+    type: {
       type: Sequelize.STRING
-    }
-    
+    }  
   });
-  return track;
+  return question;
 };

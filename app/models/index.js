@@ -14,24 +14,59 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.albums = require("./album.model.js")(sequelize, Sequelize);
-db.tracks = require("./track.model.js")(sequelize, Sequelize);
-db.artists = require("./artist.model.js")(sequelize, Sequelize);
+db.users = require("./users.model.js")(sequelize, Sequelize);
+db.surveys = require("./surveys.model.js")(sequelize, Sequelize);
+db.questions = require("./questions.model.js")(sequelize, Sequelize);
+db.responses = require("./responses.model.js")(sequelize, Sequelize);
+db.participants = require("./participants.model.js")(sequelize, Sequelize);
+db.options = require("./options.model.js")(sequelize, Sequelize);
+db.scale = require("./scale.model.js")(sequelize, Sequelize);
 
-db.albums.hasMany(db.tracks, {
-  as: 'tracks',
-  onDelete: 'CASCADE',
+db.users.hasMany(db.surveys, {
+  as: 'surveys',
+  //onDelete: 'CASCADE',
 });
-db.tracks.belongsTo(db.albums, {
-  foreignKey: 'albumId', as: 'albums',
+db.surveys.belongsTo(db.users, {
+  foreignKey: 'userId', as: 'users',
 });
 
-db.artists.hasMany(db.albums, {
-  as: 'albums',
-  onDelete: 'CASCADE',
+db.surveys.hasMany(db.questions, {
+  as: 'questions',
+  //onDelete: 'CASCADE',
 });
-db.albums.belongsTo(db.artists, {
-  foreignKey: 'artistId', as: 'artists',
+db.questions.belongsTo(db.surveys, {
+  foreignKey: 'surveyId', as: 'surveys',
+});
+
+db.questions.hasMany(db.responses, {
+  as: 'responses',
+  //onDelete: 'CASCADE',
+});
+db.responses.belongsTo(db.questions, {
+  foreignKey: 'questionId', as: 'questions',
+});
+
+db.participants.hasMany(db.responses, {
+  as: 'responses',
+  //onDelete: 'CASCADE',
+});
+db.responses.belongsTo(db.questions, {
+  foreignKey: 'participantId', as: 'participants',
+});
+
+db.surveys.hasMany(db.participants, {
+  as: 'participants',
+});
+db.participants.belongsTo(db.surveys, {
+  foreignKey: 'surveyId', as: 'surveys',
+});
+
+db.options.belongsTo(db.questions, {
+  foreignKey: 'questionId', as: 'questions',
+});
+
+db.scale.belongsTo(db.questions, {
+  foreignKey: 'questionId', as: 'questions',
 });
 
 module.exports = db;

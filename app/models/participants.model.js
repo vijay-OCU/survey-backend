@@ -1,15 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
-    const artist = sequelize.define("artists", {
-      
+    const participant = sequelize.define("participants", {
       name: {
         type: Sequelize.STRING
       },
-      gender: {
-        type: Sequelize.STRING
-      },
-      location: {
+      emailId: {
         type: Sequelize.STRING
       }
     });
-    return artist;
+    return participant;
   };
