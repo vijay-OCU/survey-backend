@@ -1,11 +1,21 @@
 const db = require('../models');
 const Surveys = db.surveys;
+const Question = db.questions;
+const Option = db.options;
+const Scale = db.scales;
 const Op = db.Sequelize.Op;
 
 //Find surveys by user Id
 exports.findById = (req, res) => {
   const userId = req.params.userId;
-  Surveys.findAll({ where: { userId: { [Op.like]: userId } }})
+  Surveys.findAll({ where: { userId: { [Op.like]: userId } }, 
+    include: [{
+      model: Question, as: 'questions',
+      include: [
+        { model: Option, as: 'options', },
+        { model: Scale, as: 'scales', }]
+    }]
+  })
     .then((data) => {
       res.send(data);
     })
