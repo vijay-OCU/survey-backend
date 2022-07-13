@@ -1,10 +1,6 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.users;
-const Survey = db.surveys;
-const Question = db.questions;
-const Option = db.options;
-const Scale = db.scales;
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -40,40 +36,5 @@ exports.createuser = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({ message: err.message });
-    });
-};
-
-//Get all users
-exports.findAllUsers = (req, res) => {
-  const role = "user";
-  var condition = role ? { role: { [Op.like]: `%${role}%` } } : null;
-  User.findAll({ where: condition })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving users.',
-      });
-    });
-};
-
-//Get all surveys
-exports.findAllSurveys = (req, res) => {
-  Survey.findAll({
-    include: [{
-      model: Question, as: 'questions',
-      include: [
-        { model: Option, as: 'options', },
-        { model: Scale, as: 'scales', }]
-    }]
-  })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving surveys.',
-      });
     });
 };

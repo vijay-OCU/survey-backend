@@ -1,5 +1,7 @@
 const { authJwt } = require("../middleware");
-const controller = require("../controllers/user.controller");
+const userController = require("../controllers/user.controller");
+const surveyController = require("../controllers/survey.controller");
+
 module.exports = function(app) {
   app.use(function(req, res, next) {
     res.header(
@@ -13,13 +15,13 @@ module.exports = function(app) {
   app.get(
     "/api/users/:userId/surveys",
     [authJwt.verifyToken],
-    controller.findById
+    userController.findById
   );
 
   //Create survey
   app.post(
     "/api/users/createsurvey",
     [ authJwt.verifyToken ],
-    controller.createsurvey
+    surveyController.createsurvey
   );
 };
