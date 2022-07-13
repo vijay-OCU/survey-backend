@@ -20,11 +20,11 @@ db.questions = require("./questions.model.js")(sequelize, Sequelize);
 db.responses = require("./responses.model.js")(sequelize, Sequelize);
 db.participants = require("./participants.model.js")(sequelize, Sequelize);
 db.options = require("./options.model.js")(sequelize, Sequelize);
-db.scale = require("./scale.model.js")(sequelize, Sequelize);
+db.scales = require("./scales.model.js")(sequelize, Sequelize);
 
 db.users.hasMany(db.surveys, {
   as: 'surveys',
-  //onDelete: 'CASCADE',
+  onDelete: 'CASCADE',
 });
 db.surveys.belongsTo(db.users, {
   foreignKey: 'userId', as: 'users',
@@ -32,7 +32,7 @@ db.surveys.belongsTo(db.users, {
 
 db.surveys.hasMany(db.questions, {
   as: 'questions',
-  //onDelete: 'CASCADE',
+  onDelete: 'CASCADE',
 });
 db.questions.belongsTo(db.surveys, {
   foreignKey: 'surveyId', as: 'surveys',
@@ -40,7 +40,7 @@ db.questions.belongsTo(db.surveys, {
 
 db.questions.hasMany(db.responses, {
   as: 'responses',
-  //onDelete: 'CASCADE',
+  onDelete: 'CASCADE',
 });
 db.responses.belongsTo(db.questions, {
   foreignKey: 'questionId', as: 'questions',
@@ -48,8 +48,9 @@ db.responses.belongsTo(db.questions, {
 
 db.participants.hasMany(db.responses, {
   as: 'responses',
-  //onDelete: 'CASCADE',
+  onDelete: 'CASCADE',
 });
+
 db.responses.belongsTo(db.questions, {
   foreignKey: 'participantId', as: 'participants',
 });
@@ -57,16 +58,28 @@ db.responses.belongsTo(db.questions, {
 db.surveys.hasMany(db.participants, {
   as: 'participants',
 });
+
 db.participants.belongsTo(db.surveys, {
   foreignKey: 'surveyId', as: 'surveys',
+});
+
+db.questions.hasMany(db.options, {
+  as: 'options',
+  onDelete: 'CASCADE',
 });
 
 db.options.belongsTo(db.questions, {
   foreignKey: 'questionId', as: 'questions',
 });
 
-db.scale.belongsTo(db.questions, {
+db.questions.hasMany(db.scales, {
+  as: 'scales',
+  onDelete: 'CASCADE',
+});
+
+db.scales.belongsTo(db.questions, {
   foreignKey: 'questionId', as: 'questions',
 });
+
 
 module.exports = db;

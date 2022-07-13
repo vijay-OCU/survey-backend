@@ -1,7 +1,10 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.users;
-const Surveys = db.surveys;
+const Survey = db.surveys;
+const Question = db.questions;
+const Option = db.options;
+const Scale = db.scales;
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -12,7 +15,7 @@ exports.createuser = (req, res) => {
   User.create({
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, 8),
-    role : req.body.role
+    role: req.body.role
   })
     .then(user => {
       res.send({ message: "User was registered successfully!" });
@@ -44,7 +47,7 @@ exports.createuser = (req, res) => {
 exports.findAllUsers = (req, res) => {
   const role = "user";
   var condition = role ? { role: { [Op.like]: `%${role}%` } } : null;
-  User.findAll({ where: condition})
+  User.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
@@ -57,7 +60,14 @@ exports.findAllUsers = (req, res) => {
 
 //Get all surveys
 exports.findAllSurveys = (req, res) => {
-  Surveys.findAll()
+  Survey.findAll({
+    include: [{
+      model: Question, as: 'questions',
+      include: [
+        { model: Option, as: 'options', },
+        { model: Scale, as: 'scales', }]
+    }]
+  })
     .then((data) => {
       res.send(data);
     })
