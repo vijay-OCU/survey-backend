@@ -26,6 +26,7 @@ db.users.hasMany(db.surveys, {
   as: 'surveys',
   onDelete: 'CASCADE',
 });
+
 db.surveys.belongsTo(db.users, {
   foreignKey: 'userId', as: 'users',
 });
@@ -34,6 +35,7 @@ db.surveys.hasMany(db.questions, {
   as: 'questions',
   onDelete: 'CASCADE',
 });
+
 db.questions.belongsTo(db.surveys, {
   foreignKey: 'surveyId', as: 'surveys',
 });
@@ -42,6 +44,7 @@ db.questions.hasMany(db.responses, {
   as: 'responses',
   onDelete: 'CASCADE',
 });
+
 db.responses.belongsTo(db.questions, {
   foreignKey: 'questionId', as: 'questions',
 });
@@ -51,12 +54,13 @@ db.participants.hasMany(db.responses, {
   onDelete: 'CASCADE',
 });
 
-db.responses.belongsTo(db.questions, {
+db.responses.belongsTo(db.participants, {
   foreignKey: 'participantId', as: 'participants',
 });
 
 db.surveys.hasMany(db.participants, {
   as: 'participants',
+  onDelete: 'CASCADE',
 });
 
 db.participants.belongsTo(db.surveys, {
