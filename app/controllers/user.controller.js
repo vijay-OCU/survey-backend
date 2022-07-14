@@ -1,5 +1,6 @@
 const db = require('../models');
 const Surveys = db.surveys;
+const User = db.users;
 const Question = db.questions;
 const Option = db.options;
 const Scale = db.scales;
