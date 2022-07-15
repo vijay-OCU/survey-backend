@@ -36,4 +36,25 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     surveyController.findAllSurveys
   );
+
+  //Get user by Id
+  app.get(
+    "/api/users/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.findUserbyId
+  );
+
+  //Edit user
+  app.put(
+    "/api/users/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.update
+  );
+
+  //Delete user
+  app.delete(
+    "/api/users/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.delete
+  );
 };
