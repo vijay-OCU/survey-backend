@@ -27,9 +27,9 @@ module.exports = function (app) {
 
     //Create survey
     app.post(
-        "/api/surveys/:surveyId/questions/submit",
+        "/api/surveys/:surveyId/submit",
         [authJwt.verifyToken],
-        surveyController.createsurvey
+        surveyController.submitResponse
     );
 
     //get Survey by SurveyId
@@ -44,6 +44,13 @@ module.exports = function (app) {
         "/api/surveys/name/:surveyName",
         [authJwt.verifyToken],
         surveyController.findBySurveyName
+    );
+
+    //get Survey by participantId
+    app.get(
+        "/api/surveys/participant/:participantId",
+        [authJwt.verifyToken],
+        surveyController.findSurveyByParticipant
     );
 
     //update Survey by surveyName

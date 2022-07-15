@@ -36,6 +36,39 @@ exports.createsurvey = (req, res) => {
         });
 };
 
+exports.submitResponse = (req, res) => {
+    const surveyId = req.params.surveyId;
+    Survey.findAll({
+        where: { id: { [Op.like]: surveyId } },
+    })
+        .then((data) => {
+            if (data.length == 1) {
+                const participantId = req.body.participantId;
+                req.body.responses.forEach(resp => {
+                    resp.choices.forEach(choice => {
+                        console.log('data received', choice);
+                        Response.create({
+                            response: choice,
+                            questionId: resp.questionId,
+                            participantId: participantId
+                        })
+                    })
+                });
+                res.send({ message: `Response is submitted to the Survey #${surveyId} successfully!` });
+
+            } else {
+                res.send({
+                    message: `Cannot submit responses to the Survey with id=${surveyId}. Maybe Survey was not found!`,
+                });
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: 'Could not Submit Survey with id=' + surveyId,
+            });
+        });
+};
+
 //Create survey
 exports.addQuestions = (req, res) => {
     const surveyId = req.params.surveyId;
@@ -45,7 +78,7 @@ exports.addQuestions = (req, res) => {
         .then((data) => {
             if (data.length == 1) {
                 req.body.forEach(que => {
-                    console.log('data received',data);
+                    console.log('data received', data);
                     Question.create({
                         question: que.question,
                         type: que.type,
@@ -153,6 +186,25 @@ exports.findBySurveyName = (req, res) => {
             });
         });
 };
+
+exports.findSurveyByParticipant = (req, res) => {
+    const participantId = req.params.participantId;
+    Participant.findAll({
+        where: { id: { [Op.like]: participantId } },
+        include: [{
+            model: Survey, as: 'surveys',}]
+    })
+        .then((data) => {
+            console.log('data received', data, participantId);
+            res.send(data);
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message || 'Some error occurred while retrieving surveys.',
+            });
+        });
+};
+
 
 // Update a Survey by the id in the request
 exports.update = (req, res) => {
