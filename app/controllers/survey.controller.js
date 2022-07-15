@@ -46,7 +46,6 @@ exports.submitResponse = (req, res) => {
                 const participantId = req.body.participantId;
                 req.body.responses.forEach(resp => {
                     resp.choices.forEach(choice => {
-                        console.log('data received', choice);
                         Response.create({
                             response: choice,
                             questionId: resp.questionId,
@@ -78,7 +77,6 @@ exports.addQuestions = (req, res) => {
         .then((data) => {
             if (data.length == 1) {
                 req.body.forEach(que => {
-                    console.log('data received', data);
                     Question.create({
                         question: que.question,
                         type: que.type,
@@ -195,7 +193,6 @@ exports.findSurveyByParticipant = (req, res) => {
             model: Survey, as: 'surveys',}]
     })
         .then((data) => {
-            console.log('data received', data, participantId);
             res.send(data);
         })
         .catch((err) => {
