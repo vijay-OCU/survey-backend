@@ -1,5 +1,6 @@
 const { authJwt } = require("../middleware");
 const surveyController = require("../controllers/survey.controller");
+const userController = require("../controllers/user.controller");
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -77,6 +78,6 @@ module.exports = function (app) {
   app.get(
     "/api/surveys/all",
     [authJwt.verifyToken],
-    controller.findAllSurveys
+    surveyController.findAllSurveys
   );
 }

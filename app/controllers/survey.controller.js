@@ -266,13 +266,13 @@ exports.deleteByName = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot delete Survey with id=${id}. Maybe Survey was not found!`,
+                    message: `Cannot delete Survey with name=${surveyName}. Maybe Survey was not found!`,
                 });
             }
         })
         .catch((err) => {
             res.status(500).send({
-                message: 'Could not delete Survey with id=' + id,
+                message: 'Could not delete Survey with name=' + surveyName,
             });
         });
 };

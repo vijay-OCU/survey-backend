@@ -1,8 +1,6 @@
 const { authJwt } = require("../middleware");
 const { verifyUsername } = require("../middleware");
 const adminController = require("../controllers/admin.controller");
-const userController = require("../controllers/user.controller");
-const surveyController = require("../controllers/survey.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -27,34 +25,27 @@ module.exports = function(app) {
   app.get(
     "/api/users/all",
     [authJwt.verifyToken, authJwt.isAdmin],
-    userController.findAllUsers
-  );
-
-  //Get all surveys
-  app.get(
-    "/api/surveys/all",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    surveyController.findAllSurveys
+    adminController.findAllUsers
   );
 
   //Get user by Id
   app.get(
     "/api/users/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.findUserbyId
+    adminController.findUserbyId
   );
 
   //Edit user
   app.put(
     "/api/users/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.update
+    adminController.update
   );
 
   //Delete user
   app.delete(
     "/api/users/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.delete
+    adminController.delete
   );
 };
