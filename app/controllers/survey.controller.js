@@ -38,34 +38,41 @@ exports.createsurvey = (req, res) => {
 
 exports.submitResponse = (req, res) => {
     const surveyId = req.params.surveyId;
-    Survey.findAll({
-        where: { id: { [Op.like]: surveyId } },
-    })
-        .then((data) => {
-            if (data.length == 1) {
-                const participantId = req.body.participantId;
-                req.body.responses.forEach(resp => {
-                    resp.choices.forEach(choice => {
-                        Response.create({
-                            response: choice,
-                            questionId: resp.questionId,
-                            participantId: participantId
-                        })
-                    })
-                });
-                res.send({ message: `Response is submitted to the Survey #${surveyId} successfully!` });
 
-            } else {
-                res.send({
-                    message: `Cannot submit responses to the Survey with id=${surveyId}. Maybe Survey was not found!`,
-                });
-            }
+    Participant.create({
+        name: req.body.participantName,
+        emailId: req.body.participantEmail,
+        surveyId: surveyId,
+    }).then(participantInfo => {
+        Survey.findAll({
+            where: { id: { [Op.like]: surveyId } },
         })
-        .catch((err) => {
-            res.status(500).send({
-                message: 'Could not Submit Survey with id=' + surveyId,
+            .then((data) => {
+                if (data.length == 1) {
+                    const participantId = participantInfo.id;
+                    req.body.responses.forEach(resp => {
+                        resp.choices.forEach(choice => {
+                            Response.create({
+                                response: choice,
+                                questionId: resp.questionId,
+                                participantId: participantId
+                            })
+                        })
+                    });
+                    res.send({ message: `Response is submitted to the Survey #${surveyId} successfully!` });
+
+                } else {
+                    res.send({
+                        message: `Cannot submit responses to the Survey with id=${surveyId}. Maybe Survey was not found!`,
+                    });
+                }
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: 'Could not Submit Survey with id=' + surveyId,
+                });
             });
-        });
+    });
 };
 
 //Create survey
@@ -190,7 +197,8 @@ exports.findSurveyByParticipant = (req, res) => {
     Participant.findAll({
         where: { id: { [Op.like]: participantId } },
         include: [{
-            model: Survey, as: 'surveys',}]
+            model: Survey, as: 'surveys',
+        }]
     })
         .then((data) => {
             res.send(data);

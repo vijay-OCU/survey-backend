@@ -28,14 +28,12 @@ module.exports = function (app) {
     //Create survey
     app.post(
         "/api/surveys/:surveyId/submit",
-        [authJwt.verifyToken],
         surveyController.submitResponse
     );
 
     //get Survey by SurveyId
     app.get(
         "/api/surveys/id/:surveyId",
-        [authJwt.verifyToken],
         surveyController.findBySurveyId
     );
 
