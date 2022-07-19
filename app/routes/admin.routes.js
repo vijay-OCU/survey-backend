@@ -1,6 +1,7 @@
 const { authJwt } = require("../middleware");
 const { verifyUsername } = require("../middleware");
-const controller = require("../controllers/admin.controller");
+const adminController = require("../controllers/admin.controller");
+
 module.exports = function(app) {
   app.use(function(req, res, next) {
     res.header(
@@ -17,20 +18,34 @@ module.exports = function(app) {
       authJwt.isAdmin,
       verifyUsername.checkDuplicateUsername
     ],
-    controller.createuser
+    adminController.createuser
   );
   
   //Get all users
   app.get(
     "/api/users/all",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.findAllUsers
+    adminController.findAllUsers
   );
 
-  //Get all surveys
+  //Get user by Id
   app.get(
-    "/api/surveys/all",
+    "/api/users/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.findAllSurveys
+    adminController.findUserbyId
+  );
+
+  //Edit user
+  app.put(
+    "/api/users/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    adminController.update
+  );
+
+  //Delete user
+  app.delete(
+    "/api/users/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    adminController.delete
   );
 };
