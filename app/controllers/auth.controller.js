@@ -44,7 +44,8 @@ exports.login = (req, res) => {
       res.status(200).send({
         username: user.username,
         accessToken: token,
-        role: user.role
+        role: user.role,
+        userId: user.id
       });
     })
     .catch(err => {

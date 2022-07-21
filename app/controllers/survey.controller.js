@@ -29,7 +29,9 @@ exports.createsurvey = (req, res) => {
         userId: req.body.userId,
     })
         .then(survey => {
-            res.send({ message: `Survey was added successfully! with id=${survey.id}` });
+            res.send({ 
+                surveyId: survey.id,
+                message: `Survey was added successfully! with id=${survey.id}` });
         })
         .catch(err => {
             res.status(500).send({ message: err.message });
