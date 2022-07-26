@@ -72,10 +72,10 @@ module.exports = function (app) {
         surveyController.deleteByName
     );
 
-      //Get all surveys based on user
-  app.get(
-    "/api/surveys/all",
-    [authJwt.verifyToken],
-    surveyController.findAllSurveys
-  );
+    //Get all surveys based on user
+    app.get(
+        "/api/surveys/all",
+        [authJwt.verifyToken],
+        surveyController.findAllSurveys
+    );
 }
