@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "bundle": "mkdir deploy && cp -r app/config app/controllers app/models app/routes server.js package.json package-lock.json deploy && rm app/deploy/config/db.config.js && mv app/deploy/config/prod.db.config.js deploy/config/db.config.js"
+    "bundle": "mkdir deploy && cp -r app/config app/controllers app/models app/routes server.js package.json package-lock.json deploy && rm app/config/db.config.js && mv app/config/prod.db.config.js deploy/config/db.config.js"
   },
   "keywords": [
     "node.js",
