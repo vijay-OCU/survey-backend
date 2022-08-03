@@ -32,7 +32,7 @@ jobs:
               env:
                   NAME: 'Root'
               with:
-                  hosts: 'ubuntu@team0.eaglesoftwareteam.com'
+                  hosts: 'ubuntu@ec2-54-157-248-112.compute-1.amazonaws.com'
                   privateKey: ${{ secrets.SERVER_SSH_KEY }}
                   debug: false
                   command: |
