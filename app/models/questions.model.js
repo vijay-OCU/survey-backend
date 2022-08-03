@@ -5,7 +5,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     type: {
       type: Sequelize.STRING
-    }  
+    }
+  }, {
+    timestamps: false,
   });
   return question;
 };
