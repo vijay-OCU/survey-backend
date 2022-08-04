@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // for not to recreate each time database but add new things
-db.sequelize.sync().then(() => {
+db?.sequelize?.sync()?.then(() => {
   initializeadmin();
 });
 //for devel to recreate each time database 
@@ -37,9 +37,11 @@ require('./app/routes/survey.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
+  });
+}
 
 function initializeadmin() {
   User.findOne({
@@ -58,3 +60,5 @@ function initializeadmin() {
     }
   }); 
 }
+
+module.exports = app;

@@ -22,66 +22,66 @@ db.participants = require("./participants.model.js")(sequelize, Sequelize);
 db.options = require("./options.model.js")(sequelize, Sequelize);
 db.scales = require("./scales.model.js")(sequelize, Sequelize);
 
-db.users.hasMany(db.surveys, {
+db.users?.hasMany(db.surveys, {
   as: 'surveys',
   onDelete: 'CASCADE',
 });
 
-db.surveys.belongsTo(db.users, {
+db.surveys?.belongsTo(db.users, {
   foreignKey: 'userId', as: 'users',
 });
 
-db.surveys.hasMany(db.questions, {
+db.surveys?.hasMany(db.questions, {
   as: 'questions',
   onDelete: 'CASCADE',
 });
 
-db.questions.belongsTo(db.surveys, {
+db.questions?.belongsTo(db.surveys, {
   foreignKey: 'surveyId', as: 'surveys',
 });
 
-db.questions.hasMany(db.responses, {
+db.questions?.hasMany(db.responses, {
   as: 'responses',
   onDelete: 'CASCADE',
 });
 
-db.responses.belongsTo(db.questions, {
+db.responses?.belongsTo(db.questions, {
   foreignKey: 'questionId', as: 'questions',
 });
 
-db.participants.hasMany(db.responses, {
+db.participants?.hasMany(db.responses, {
   as: 'responses',
   onDelete: 'CASCADE',
 });
 
-db.responses.belongsTo(db.participants, {
+db.responses?.belongsTo(db.participants, {
   foreignKey: 'participantId', as: 'participants',
 });
 
-db.surveys.hasMany(db.participants, {
+db.surveys?.hasMany(db.participants, {
   as: 'participants',
   onDelete: 'CASCADE',
 });
 
-db.participants.belongsTo(db.surveys, {
+db.participants?.belongsTo(db.surveys, {
   foreignKey: 'surveyId', as: 'surveys',
 });
 
-db.questions.hasMany(db.options, {
+db.questions?.hasMany(db.options, {
   as: 'options',
   onDelete: 'CASCADE',
 });
 
-db.options.belongsTo(db.questions, {
+db.options?.belongsTo(db.questions, {
   foreignKey: 'questionId', as: 'questions',
 });
 
-db.questions.hasMany(db.scales, {
+db.questions?.hasMany(db.scales, {
   as: 'scales',
   onDelete: 'CASCADE',
 });
 
-db.scales.belongsTo(db.questions, {
+db.scales?.belongsTo(db.questions, {
   foreignKey: 'questionId', as: 'questions',
 });
 
